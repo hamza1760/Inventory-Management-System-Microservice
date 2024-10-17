@@ -3,7 +3,13 @@ server:
 
 spring:
   application:
-    name: mg-gateway
-
+    name: gateway
   main:
     web-application-type: reactive
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8110/eureka
+
+
