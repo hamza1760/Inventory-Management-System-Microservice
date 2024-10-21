@@ -12,3 +12,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8110/eureka
+
+feign:
+  circuitbreaker:
+    enabled: true
+
+url:
+  base-uri: localhost
