@@ -1,3 +1,4 @@
 rootProject.name = 'Inventory-Management-System-Microservice'
 include ':gateway'
 include ':service-discovery'
+include ':auth'
