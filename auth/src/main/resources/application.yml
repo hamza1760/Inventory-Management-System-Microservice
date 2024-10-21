@@ -1,0 +1,14 @@
+server:
+  port: 8120
+
+spring:
+  profiles:
+    active: dev  #it will not be pushed to git because it contains password
+
+  application:
+    name: auth
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8110/eureka
