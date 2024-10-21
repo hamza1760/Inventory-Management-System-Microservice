@@ -16,7 +16,5 @@ feign:
   circuitbreaker:
     enabled: true
 
-url:
-  base-uri: localhost
 
 

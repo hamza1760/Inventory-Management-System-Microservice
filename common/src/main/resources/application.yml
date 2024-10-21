@@ -1,0 +1,9 @@
+server:
+  port: 8140
+
+spring:
+  profiles:
+    active: dev  #it will not be pushed to git because it contains password
+
+  application:
+    name: common

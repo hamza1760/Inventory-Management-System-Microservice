@@ -1,12 +1,12 @@
 server:
-  port: 8120
+  port: 8150
 
 spring:
   profiles:
     active: dev  #it will not be pushed to git because it contains password
 
   application:
-    name: auth
+    name: user
 
   mvc:
     pathmatch:

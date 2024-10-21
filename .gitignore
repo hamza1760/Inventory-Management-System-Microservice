@@ -26,6 +26,9 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 /auth/src/main/resources/application-dev.yml
+/user/src/main/resources/application-dev.yml
+/common/src/main/resources/application-dev.yml
+
 
 ### NetBeans ###
 /nbproject/private/
