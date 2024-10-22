@@ -7,6 +7,30 @@ spring:
   main:
     web-application-type: reactive
 
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allow-credentials: false
+            allowedOriginPatterns: "*"
+            allowedHeaders: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+
+      routes:
+        - id: auth
+          uri: lb://auth
+          predicates: Path=/api/user
+
 eureka:
   client:
     serviceUrl:

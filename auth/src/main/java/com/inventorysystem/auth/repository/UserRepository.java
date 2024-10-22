@@ -1,6 +1,6 @@
-package com.inventorysystem.user.repository;
+package com.inventorysystem.auth.repository;
 
-import com.inventorysystem.user.entity.User;
+import com.inventorysystem.auth.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
