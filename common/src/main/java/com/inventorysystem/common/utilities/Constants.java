@@ -17,5 +17,8 @@ public class Constants {
     public static final String PUBLIC_KEY = "publicKey";
     public static final String ALGO_RS256 = "RS256";
     public static final String INVENT0RY_CLIENT = "inventory";
+    public static final String USER_ID = "id";
+    public static final String PREFERRED_USERNAME = "preferred_username";
+
 
 }

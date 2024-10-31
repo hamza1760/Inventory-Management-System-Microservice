@@ -12,8 +12,11 @@ import static com.inventorysystem.common.utilities.Constants.USER_ROLE;
 
 import com.inventorysystem.auth.dto.AuthDetailDto;
 import com.inventorysystem.auth.dto.UserDTO;
+import com.inventorysystem.auth.model.request.LoginRequest;
 import com.inventorysystem.auth.service.IRealmService;
 import com.inventorysystem.auth.utilities.KeycloakUtil;
+import com.inventorysystem.common.customexception.InvalidCredentialsException;
+import com.inventorysystem.common.dto.TokenDto;
 import com.inventorysystem.common.enums.RolesEnum;
 import com.inventorysystem.common.exceptions.BusinessException;
 import java.util.Arrays;
@@ -24,7 +27,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.RealmsResource;
@@ -32,6 +37,8 @@ import org.keycloak.admin.client.resource.RoleResource;
 import org.keycloak.admin.client.resource.RolesResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.admin.client.token.TokenManager;
+import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.KeysMetadataRepresentation;
@@ -39,6 +46,7 @@ import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +56,9 @@ public class RealmService implements IRealmService {
 
     @Autowired
     KeycloakUtil keycloakUtil;
+
+    @Value("${kc.inventory-client}")
+    public String inventoryClient;
 
     @Override
     public void addUser(UserDTO userDTO) {
@@ -169,5 +180,46 @@ public class RealmService implements IRealmService {
             keys.put(PUBLIC_KEY, keysRepresentation.get(0).getPublicKey());
         }
         return keys;
+    }
+    @Override
+    public TokenDto getToken(LoginRequest loginRequest, AuthDetailDto authDetailDto) {
+        log.info("Getting token for user: {}", loginRequest.getUsername());
+        TokenDto token;
+        String username = loginRequest.getUsername();
+        String realmName = authDetailDto.getRealm();
+        Keycloak keycloak = KeycloakBuilder.builder().serverUrl(keycloakUtil.serverUrl).realm(realmName)
+            .grantType(OAuth2Constants.PASSWORD).clientId(inventoryClient).clientSecret(authDetailDto.getClientSecret())
+            .username(username).password(loginRequest.getPassword()).build();
+        try {
+            TokenManager tokenManager = keycloak.tokenManager();
+            AccessTokenResponse accessToken = tokenManager.getAccessToken();
+            String accessTokenString = accessToken.getToken();
+            token = TokenDto.builder().accessToken(accessTokenString)
+                .refreshToken(accessToken.getRefreshToken())
+                .expiresIn(accessToken.getExpiresIn())
+                .refreshExpiresIn(accessToken.getRefreshExpiresIn()).build();
+        } catch (javax.ws.rs.NotFoundException ex) {
+            log.error("KeyCloak not authorized for user: {}", loginRequest.getUsername());
+            throw new InvalidCredentialsException("Incorrect Credentials: Please check your username and password");
+        } catch (javax.ws.rs.NotAuthorizedException ex) {
+            log.error("KeyCloak not authorized for user: {}", loginRequest.getUsername());
+            throw new InvalidCredentialsException("Incorrect Credentials: Please check your username and password");
+        }
+        return token;
+    }
+    @Override
+    public UserRepresentation getUserAttributes(String email, String realm) {
+        log.info("Getting attributes for user: {}", email);
+        Keycloak keycloak = keycloakUtil.getInstance();
+        RealmResource realmResource = keycloak.realm(realm);
+        // Get realm users
+        UsersResource usersResource = realmResource.users();
+        // Get user
+        UserRepresentation user = usersResource.searchByEmail(email, true).get(0);
+        if (user == null) {
+            log.error("Error while getting attributes for user: {}", email, "User Not Found!");
+            throw new BusinessException("User Not Found!");
+        }
+        return user;
     }
 }
