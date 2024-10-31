@@ -1,4 +1,4 @@
-package com.inventorysystem.auth.entity;
+package com.inventorysystem.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.inventorysystem.common.enums.RolesEnum;

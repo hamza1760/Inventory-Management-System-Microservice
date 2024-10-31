@@ -20,3 +20,19 @@ eureka:
 feign:
   circuitbreaker:
     enabled: true
+
+keycloak:
+  realm: master
+  auth-server-url: http://localhost:8071
+  ssl-required: external
+  resource: admin-cli
+  bearer-only: true
+  cors: true
+  public-client: true
+  connection-pool-size: 10
+
+kc:
+  admin:
+    user: admin
+    password: admin
+  inventory-client: inventory

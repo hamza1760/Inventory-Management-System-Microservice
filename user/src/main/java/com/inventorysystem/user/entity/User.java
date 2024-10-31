@@ -1,4 +1,4 @@
-package com.inventorysystem.auth.entity;
+package com.inventorysystem.user.entity;
 
 import com.inventorysystem.common.utilities.Constants;
 import javax.persistence.Entity;

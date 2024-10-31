@@ -1,0 +1,4 @@
+package com.inventorysystem.auth.utilities;
+
+public class KeycloakUtil {
+}

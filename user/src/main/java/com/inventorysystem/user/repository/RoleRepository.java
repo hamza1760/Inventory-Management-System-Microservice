@@ -1,7 +1,7 @@
-package com.inventorysystem.auth.repository;
+package com.inventorysystem.user.repository;
 
-import com.inventorysystem.auth.entity.Role;
 import com.inventorysystem.common.enums.RolesEnum;
+import com.inventorysystem.user.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Integer> {

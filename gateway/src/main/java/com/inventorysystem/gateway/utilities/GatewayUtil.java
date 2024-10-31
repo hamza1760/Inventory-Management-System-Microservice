@@ -1,5 +1,6 @@
 package com.inventorysystem.gateway.utilities;
 
+import com.inventorysystem.common.utilities.Constants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -13,11 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.server.ServerWebExchange;
 
 @Slf4j
 @Component
@@ -89,5 +92,21 @@ public class GatewayUtil {
         }
     }
 
+    public String getAuthorizationToken(ServerWebExchange exchange) {
+        return getAuthorizationToken(exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION));
+    }
+
+    public String getAuthorizationToken(String authorizationHeaderValue) {
+        if (!isBearerTokenValid(authorizationHeaderValue)) {
+            log.error("Token is not valid, either its null OR empty OR only contain whitespace OR not having valid format as {Bearer + SPACE + token}");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid format of token: " + authorizationHeaderValue);
+        }
+        return authorizationHeaderValue.replace(Constants.AUTHORIZATION_TOKEN_PREFIX, "");
+    }
+
+    private boolean isBearerTokenValid(String authorizationHeaderValue) {
+        return StringUtils.hasText(authorizationHeaderValue)
+            && authorizationHeaderValue.startsWith(Constants.AUTHORIZATION_TOKEN_PREFIX);
+    }
 
 }

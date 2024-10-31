@@ -27,9 +27,13 @@ spring:
               - OPTIONS
 
       routes:
+        - id: user
+          uri: lb://user
+          predicates: Path=/api/user
+
         - id: auth
           uri: lb://auth
-          predicates: Path=/api/user
+          predicates: Path=/api/realm/**
 
 eureka:
   client:

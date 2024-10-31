@@ -39,12 +39,11 @@
 //        return Mono
 //            .just(allClaimsFromToken)
 //            .map(claims -> {
-////                Map<String, List<String>> authorities = claims.get(REALM_ACCESS, HashMap.class);
-////                List<String> roles = authorities.get(ROLES);
-////                if (claims.get(USER_ROLE) != null) {
-////                    String[] userRoles = claims.get(USER_ROLE, String.class).split(" ");
-//                    gatewayUtil.getAuthorities()
-//                }
+//                Map<String, List<String>> authorities = claims.get(REALM_ACCESS, HashMap.class);
+//                List<String> roles = authorities.get(ROLES);
+//                if (claims.get(USER_ROLE) != null) {
+//                    String[] userRoles = claims.get(USER_ROLE, String.class).split(" ");
+//            }
 //                return new UsernamePasswordAuthenticationToken(
 //                    authentication.getPrincipal(), null, roles.stream().map(SimpleGrantedAuthority::new).toList());
 //            });
