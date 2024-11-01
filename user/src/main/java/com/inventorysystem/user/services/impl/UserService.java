@@ -41,12 +41,10 @@ public class UserService implements IUserService {
         }
 
         userDto.setRole(ModelConverter.entityToDto(roleRepository.findByRoleName(RolesEnum.Admin), RoleDTO.class));
-        userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-
-        userRepository.save(ModelConverter.dtoToEntity(userDto, User.class));
         sendUserToKeycloak(userDto);
+        userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        userRepository.save(ModelConverter.dtoToEntity(userDto, User.class));
         userDto.setPassword(null);
-
         return userDto;
     }
 
