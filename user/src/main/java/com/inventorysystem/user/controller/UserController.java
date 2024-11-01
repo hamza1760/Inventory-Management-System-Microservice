@@ -1,10 +1,8 @@
 package com.inventorysystem.user.controller;
 
 import static com.inventorysystem.common.utilities.ApiEndPointConstants.API;
-import static com.inventorysystem.common.utilities.ApiEndPointConstants.REALM;
 import static com.inventorysystem.common.utilities.ApiEndPointConstants.USER;
 
-import com.inventorysystem.common.utilities.ModelConverter;
 import com.inventorysystem.user.dto.UserDTO;
 import com.inventorysystem.user.services.IUserService;
 import javax.validation.Valid;
@@ -34,5 +32,6 @@ public class UserController {
         UserDTO userDto = iUserService.add(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
     }
+
 
 }

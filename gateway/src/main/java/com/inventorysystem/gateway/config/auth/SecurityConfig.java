@@ -51,7 +51,7 @@ public class SecurityConfig {
             .pathMatchers(HttpMethod.GET, "/api/user").permitAll()
             .pathMatchers(HttpMethod.GET, "/api/realm/**").permitAll()
             .pathMatchers(HttpMethod.POST, "/api/realm").permitAll()
-            .pathMatchers(HttpMethod.POST, "/api/auth/refresh-login").permitAll()
+            .pathMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
             .anyExchange()
             .authenticated()
             .and()

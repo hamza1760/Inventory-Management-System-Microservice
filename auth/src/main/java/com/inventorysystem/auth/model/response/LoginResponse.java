@@ -1,6 +1,7 @@
 package com.inventorysystem.auth.model.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.inventorysystem.common.dto.AuthorityDto;
 import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;

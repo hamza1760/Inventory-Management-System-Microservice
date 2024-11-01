@@ -22,11 +22,5 @@ public class UserServiceFeignFallbackHandler implements IUserService {
             "Exception occurred while calling getUserByUsername with username: " + username, cause);
     }
 
-    @Override
-    public AuthDetailDto getAuthDetail(String username) {
-        throw new ClientIntegrationException(
-            "Exception occurred while calling getAuthDetail for username: " + username, cause);
-    }
-
 
 }

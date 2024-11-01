@@ -19,6 +19,8 @@ public class Constants {
     public static final String INVENT0RY_CLIENT = "inventory";
     public static final String USER_ID = "id";
     public static final String PREFERRED_USERNAME = "preferred_username";
+    public static final String DEFAULT_ROLES = "default-roles";
+    public static final String USER_NOT_FOUND = "User not found";
 
 
 }

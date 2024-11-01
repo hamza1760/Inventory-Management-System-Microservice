@@ -9,5 +9,5 @@ public class ApiEndPointConstants {
     public static final String AUTH = "/auth";
     public static final String REALM = "/realm";
     public static final String USER = "/user";
-    public static final String AUTH_DETAIL = "/auth-detail";
+    public static final String LOGIN = "/login";
 }

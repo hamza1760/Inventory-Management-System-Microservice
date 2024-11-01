@@ -33,7 +33,8 @@ spring:
 
         - id: auth
           uri: lb://auth
-          predicates: Path=/api/realm/**
+          predicates:
+          - Path=/api/realm/**, /api/auth/**
 
 eureka:
   client:

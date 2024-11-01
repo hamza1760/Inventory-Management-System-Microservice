@@ -1,0 +1,114 @@
+package com.inventorysystem.user.services.impl;
+
+import static com.inventorysystem.common.utilities.Constants.USER_NOT_FOUND;
+
+import com.inventorysystem.common.customexception.NotFoundException;
+import com.inventorysystem.common.enums.RolesEnum;
+import com.inventorysystem.common.exceptions.BusinessException;
+import com.inventorysystem.common.exceptions.Exception;
+import com.inventorysystem.common.utilities.ModelConverter;
+import com.inventorysystem.user.dto.AuthDetailDto;
+import com.inventorysystem.user.dto.RoleDTO;
+import com.inventorysystem.user.dto.UserDTO;
+import com.inventorysystem.user.entity.User;
+import com.inventorysystem.user.repository.RoleRepository;
+import com.inventorysystem.user.repository.UserRepository;
+import com.inventorysystem.user.services.IUserService;
+import com.inventorysystem.user.utilities.AuthServiceUtils;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService implements IUserService {
+
+    @Autowired
+    AuthServiceUtils authServiceUtils;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    RoleRepository roleRepository;
+
+    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+
+    @Override
+    public UserDTO add(UserDTO userDto) {
+
+        User user = userRepository.findByEmail(userDto.getEmail());
+        if (user != null) {
+            throw new Exception("User already exists with email {} ",user.getEmail());
+        }
+
+        userDto.setRole(ModelConverter.entityToDto(roleRepository.findByRoleName(RolesEnum.Admin), RoleDTO.class));
+        userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+
+        userRepository.save(ModelConverter.dtoToEntity(userDto, User.class));
+        sendUserToKeycloak(userDto);
+        userDto.setPassword(null);
+
+        return userDto;
+    }
+
+    private void sendUserToKeycloak(UserDTO userDto) {
+
+        authServiceUtils.addRealmUserInKeycloak(userDto);
+    }
+
+    @Override
+    public AuthDetailDto getAuthDetail(String username) {
+
+        User user = userRepository.findByEmail(username);
+        if (user == null) {
+            throw new NotFoundException(USER_NOT_FOUND + " having username: " + username);
+        }
+        AuthDetailDto authDetailDto = null;
+
+        if (CUSTOMER.equals(user.getUserType().getName())) {
+            if (null != requestMetaData.getSubDomain() && !baseUri.split("\\.")[0].equals(requestMetaData.getSubDomain())) {
+                log.warn("Username {} is trying to login via subDomain", username);
+                throw new NotAuthorizedException("Username " + username + " is not authorized to access subdomain");
+            }
+            authDetailDto = AuthDetailDto.builder().realm(customerRealm).clientSecret(customerClientSecret).publicKey(customerPublicKey).build();
+
+        } else if (BACK_OFFICE.equals(user.getUserType().getName())) {
+            if (null != requestMetaData.getSubDomain()) {
+                authDetailDto = ModelConverter.convertToDto(authDetailRepository.findByCompanySubDomain(requestMetaData.getSubDomain()));
+            } else {
+                throw new NotAuthorizedException("subdomain is required or not found");
+            }
+        } else if (SERVICE_PROVIDER.equals(user.getUserType().getName())) {
+            if (null != requestMetaData.getSubDomain()) {
+                authDetailDto = ModelConverter.convertToDto(authDetailRepository.findByCompanySubDomain(requestMetaData.getSubDomain()));
+            } else {
+                Long companyId = null;
+                if (user.getIsCompanySuperAdmin().booleanValue()) {
+                    Optional<Company> company = companyRepository.findByCreatedById(user.getId());
+                    if (company.isPresent()) {
+                        companyId = company.get().getId();
+                    }
+                } else {
+                    companyId = user.getCompanyBranch().getCompany().getId();
+                }
+                if (companyId != null) {
+                    AuthDetail authDetail = authDetailRepository.findByCompanyId(companyId);
+                    if (authDetail != null) {
+                        authDetailDto = ModelConverter.convertToDto(authDetail);
+                    }
+                } else {
+                    throw new NotFoundException("Company Keycloak Detail Not Found");
+                }
+            }
+            if (authDetailDto != null) {
+                String subDomain = requestMetaData.getSubDomain();
+                String realmName = authDetailDto.getRealm();
+                if (null != subDomain && !realmName.equalsIgnoreCase(subDomain)) {
+                    log.warn("Username {} belongs to realmName {} and is trying to login via subDomain {}", username, realmName, subDomain);
+                    throw new NotAuthorizedException("Username " + username + " is not authorized to access subdomain " + subDomain);
+                }
+            }
+        }
+        return authDetailDto;
+    }
+}
+

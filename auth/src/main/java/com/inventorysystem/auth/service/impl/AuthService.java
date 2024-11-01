@@ -14,6 +14,8 @@ import com.inventorysystem.common.customexception.ClientIntegrationException;
 import com.inventorysystem.common.customexception.InvalidCredentialsException;
 import com.inventorysystem.common.dto.TokenDto;
 import com.inventorysystem.common.exceptions.BusinessException;
+import com.inventorysystem.common.utilities.Constants;
+import com.inventorysystem.common.utilities.Utils;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,8 @@ public class AuthService implements IAuthService {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private Utils commonUtils;
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -40,17 +44,18 @@ public class AuthService implements IAuthService {
         try {
             String username = loginRequest.getUsername();
             log.info("Getting AuthDetail for username : {}", username);
-            AuthDetailDto authDetailDto = userService.getAuthDetail(username);
-            log.debug("authDetailDto: {}", authDetailDto);
-            String realmName = authDetailDto.getRealm();
+            String realmName = Constants.REALM_NAME;
             LoginResponse loginResponse = new LoginResponse();
-            TokenDto token = realmService.getToken(loginRequest, authDetailDto);
+            TokenDto token = realmService.getToken(loginRequest);
             loginResponse.setToken(token.getAccessToken());
             loginResponse.setRefreshToken(token.getRefreshToken());
             loginResponse.setExpiresIn(token.getExpiresIn());
             loginResponse.setRefreshExpiresIn(token.getRefreshExpiresIn());
             UserRepresentation user = realmService.getUserAttributes(username, realmName);
-            Map<String, List<String>> userAttributes = user.getAttributes();
+//            Map<String, List<String>> userAttributes = user.getAttributes();
+
+            loginResponse.setUserType(realmService.getUserRole(user.getId(), realmName));
+
             return loginResponse;
 
 

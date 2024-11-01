@@ -1,9 +1,13 @@
 package com.inventorysystem.user.services.impl;
 
+import static com.inventorysystem.common.utilities.Constants.USER_NOT_FOUND;
+
+import com.inventorysystem.common.customexception.NotFoundException;
 import com.inventorysystem.common.enums.RolesEnum;
 import com.inventorysystem.common.exceptions.BusinessException;
 import com.inventorysystem.common.exceptions.Exception;
 import com.inventorysystem.common.utilities.ModelConverter;
+import com.inventorysystem.user.dto.AuthDetailDto;
 import com.inventorysystem.user.dto.RoleDTO;
 import com.inventorysystem.user.dto.UserDTO;
 import com.inventorysystem.user.entity.User;
@@ -11,6 +15,7 @@ import com.inventorysystem.user.repository.RoleRepository;
 import com.inventorysystem.user.repository.UserRepository;
 import com.inventorysystem.user.services.IUserService;
 import com.inventorysystem.user.utilities.AuthServiceUtils;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

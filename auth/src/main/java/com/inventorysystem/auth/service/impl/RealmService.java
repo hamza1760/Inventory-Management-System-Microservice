@@ -19,6 +19,8 @@ import com.inventorysystem.common.customexception.InvalidCredentialsException;
 import com.inventorysystem.common.dto.TokenDto;
 import com.inventorysystem.common.enums.RolesEnum;
 import com.inventorysystem.common.exceptions.BusinessException;
+import com.inventorysystem.common.utilities.Constants;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -59,6 +61,8 @@ public class RealmService implements IRealmService {
 
     @Value("${kc.inventory-client}")
     public String inventoryClient;
+    @Value("${kc.client-secret}")
+    public String clientSecret;
 
     @Override
     public void addUser(UserDTO userDTO) {
@@ -182,13 +186,13 @@ public class RealmService implements IRealmService {
         return keys;
     }
     @Override
-    public TokenDto getToken(LoginRequest loginRequest, AuthDetailDto authDetailDto) {
+    public TokenDto getToken(LoginRequest loginRequest) {
         log.info("Getting token for user: {}", loginRequest.getUsername());
         TokenDto token;
         String username = loginRequest.getUsername();
-        String realmName = authDetailDto.getRealm();
+        String realmName = Constants.REALM_NAME;
         Keycloak keycloak = KeycloakBuilder.builder().serverUrl(keycloakUtil.serverUrl).realm(realmName)
-            .grantType(OAuth2Constants.PASSWORD).clientId(inventoryClient).clientSecret(authDetailDto.getClientSecret())
+            .grantType(OAuth2Constants.PASSWORD).clientId(inventoryClient).clientSecret(clientSecret)
             .username(username).password(loginRequest.getPassword()).build();
         try {
             TokenManager tokenManager = keycloak.tokenManager();
@@ -222,4 +226,21 @@ public class RealmService implements IRealmService {
         }
         return user;
     }
+
+    @Override
+    public String getUserRole(String userId, String realm) {
+        log.info("Getting user roles for userId: {} in realm: {}", userId, realm);
+        List<String> roles = new ArrayList<>();
+        Keycloak keycloak = keycloakUtil.getInstance();
+        RealmResource realmResource = keycloak.realm(realm);
+        UsersResource usersResource = realmResource.users();
+        UserResource user = usersResource.get(userId);
+        user.roles().realmLevel().listEffective().forEach(role -> {
+            if (!role.getName().contains(Constants.DEFAULT_ROLES)) {
+                roles.add(role.getName());
+            }
+        });
+        return String.join("", roles);
+    }
+
 }

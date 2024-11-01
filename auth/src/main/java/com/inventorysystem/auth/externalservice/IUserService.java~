@@ -24,4 +24,7 @@ public interface IUserService {
     @GetMapping(API + USER + "/by-username/{username}")
     UserDTO getUserByUsername(@PathVariable String username);
 
+    @GetMapping(API + USER + AUTH_DETAIL + "/{username}")
+    AuthDetailDto getAuthDetail(@PathVariable String username);
+
 }
