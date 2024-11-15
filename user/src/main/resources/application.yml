@@ -1,5 +1,5 @@
 server:
-  port: 8150
+  port: 9150
 
 spring:
   profiles:
@@ -15,7 +15,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8110/eureka
+      defaultZone: http://localhost:9110/eureka
 
 feign:
   circuitbreaker:
@@ -29,3 +29,7 @@ resilience4j:
     configs:
       default:
         timeout-duration: 60s
+
+kc:
+  customerClientSecret: 5XsCQbsMW1RyQeMl7g250F8I8c5aY6MV
+  customerPublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA7uTqzFSN3npYf9C4ndUuNDxn3/E1g/ZsA4PAiTL7Tf/F3RzH0dRgBhKxH+1OLCixkp+GSekf0uEN0/nqCiJhI1vZDfk6wnnfk0J9fI5SRxdXxThG9mDYMX+DX0e+RidVVJ7xE0vxdurEdXdv3geCo4hQCne/u58FBvgyrqKcBUZaufU2TRkPpTL4AKLL+48FFKK76WegpgVsdSo76yjRkX/DI/HpCHScNvllpcAM8Ahmv3GBW35rdzKqh43yzWNomft8wt+Oz+Wtp8/AC00ye/ZPyH+aTgf2e98uiKvfhHs7fN2SkBl9SSWV2TjJgVQW8c78+gLhDh73MkQiFXSvgQIDAQAB

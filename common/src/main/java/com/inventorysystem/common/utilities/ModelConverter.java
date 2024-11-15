@@ -1,7 +1,6 @@
 package com.inventorysystem.common.utilities;
 
-
-import com.inventorysystem.common.exceptions.BusinessException;
+import com.inventorysystem.common.customexception.BusinessException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;

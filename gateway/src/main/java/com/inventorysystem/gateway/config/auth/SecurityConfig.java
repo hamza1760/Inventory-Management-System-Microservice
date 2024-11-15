@@ -1,22 +1,27 @@
 package com.inventorysystem.gateway.config.auth;
 
 
+import com.inventorysystem.common.utilities.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import reactor.core.publisher.Mono;
 
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private SecurityContextRepository securityContextRepository;
 
     @Autowired
     private SecurityFilter securityFilter;
@@ -41,8 +46,8 @@ public class SecurityConfig {
             .formLogin().disable()
             .httpBasic().disable()
             .addFilterBefore(securityFilter, SecurityWebFiltersOrder.AUTHORIZATION)
-//            .authenticationManager(authenticationManager)
-//            .securityContextRepository(securityContextRepository)
+            .authenticationManager(authenticationManager)
+            .securityContextRepository(securityContextRepository)
             .authorizeExchange()
             .pathMatchers(HttpMethod.OPTIONS).permitAll()
             .pathMatchers("/swagger-resources", "/swagger-resources/configuration/ui", "/swagger-resources/configuration/security", "/swagger-ui/**").permitAll()
@@ -52,6 +57,10 @@ public class SecurityConfig {
             .pathMatchers(HttpMethod.GET, "/api/realm/**").permitAll()
             .pathMatchers(HttpMethod.POST, "/api/realm").permitAll()
             .pathMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+            .pathMatchers(HttpMethod.GET,"/api/inventory/**").hasAnyAuthority(Constants.ADMIN)
+            .pathMatchers(HttpMethod.POST,"/api/inventory/**").hasAnyAuthority(Constants.ADMIN)
+            .pathMatchers(HttpMethod.PUT,"/api/inventory/**").hasAnyAuthority(Constants.ADMIN)
+            .pathMatchers(HttpMethod.DELETE,"/api/inventory/**").hasAnyAuthority(Constants.ADMIN)
             .anyExchange()
             .authenticated()
             .and()

@@ -1,4 +1,4 @@
-package com.inventorysystem.common.exceptions;
+package com.inventorysystem.common.customexception;
 
 public class Exception extends RuntimeException {
 

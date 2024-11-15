@@ -1,0 +1,31 @@
+server:
+  port: 9100
+
+spring:
+  profiles:
+    active: dev  #it will not be pushed to git because it contains password
+
+  application:
+    name: backoffice
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9110/eureka
+
+feign:
+  circuitbreaker:
+    enabled: true
+  retry:
+    max: 1
+    interval: 2000
+
+resilience4j:
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 60s

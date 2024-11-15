@@ -1,7 +1,7 @@
 package com.inventorysystem.user.fallback;
 
 
-import com.inventorysystem.common.exceptions.BusinessException;
+import com.inventorysystem.common.customexception.BusinessException;
 import com.inventorysystem.user.externalservice.IAuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;

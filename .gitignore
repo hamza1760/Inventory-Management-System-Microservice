@@ -28,6 +28,7 @@ out/
 /auth/src/main/resources/application-dev.yml
 /user/src/main/resources/application-dev.yml
 /common/src/main/resources/application-dev.yml
+/backoffice/src/main/resources/application-dev.yml
 
 
 ### NetBeans ###

@@ -1,5 +1,5 @@
 server:
-  port: 8120
+  port: 9120
 
 spring:
   profiles:
@@ -15,7 +15,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8110/eureka
+      defaultZone: http://localhost:9110/eureka
 
 feign:
   circuitbreaker:

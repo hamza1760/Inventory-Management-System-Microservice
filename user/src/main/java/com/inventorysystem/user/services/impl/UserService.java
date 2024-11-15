@@ -2,10 +2,11 @@ package com.inventorysystem.user.services.impl;
 
 import static com.inventorysystem.common.utilities.Constants.USER_NOT_FOUND;
 
+import com.inventorysystem.common.customexception.NotAuthorizedException;
 import com.inventorysystem.common.customexception.NotFoundException;
 import com.inventorysystem.common.enums.RolesEnum;
-import com.inventorysystem.common.exceptions.BusinessException;
-import com.inventorysystem.common.exceptions.Exception;
+import com.inventorysystem.common.customexception.Exception;
+import com.inventorysystem.common.utilities.Constants;
 import com.inventorysystem.common.utilities.ModelConverter;
 import com.inventorysystem.user.dto.AuthDetailDto;
 import com.inventorysystem.user.dto.RoleDTO;
@@ -17,6 +18,7 @@ import com.inventorysystem.user.services.IUserService;
 import com.inventorysystem.user.utilities.AuthServiceUtils;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,12 @@ public class UserService implements IUserService {
 
     @Autowired
     AuthServiceUtils authServiceUtils;
+
+    @Value("${kc.customerClientSecret}")
+    private String customerClientSecret;
+    @Value("${kc.customerPublicKey}")
+    private String customerPublicKey;
+
     @Autowired
     UserRepository userRepository;
     @Autowired
