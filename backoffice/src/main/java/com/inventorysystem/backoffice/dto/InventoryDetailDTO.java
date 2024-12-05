@@ -1,6 +1,7 @@
 package com.inventorysystem.backoffice.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.inventorysystem.common.enums.ItemSize;
 import com.inventorysystem.common.utilities.Constants;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.Setter;
 public class InventoryDetailDTO {
 
     private int inventoryId;
-    private String itemSize;
+    private ItemSize itemSize;
     private int inStock;
     private int avlQty;
     private int inTransit;
@@ -26,6 +27,5 @@ public class InventoryDetailDTO {
     private int reorderPoint;
     private ItemDTO item;
     private ItemTypeDTO itemType;
-    @JsonIgnore
-    private WarehouseDTO warehouse;
+    private int warehouseId;
 }

@@ -30,21 +30,21 @@ import org.hibernate.annotations.Where;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE user SET is_deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE user item is_deleted = true WHERE id=?")
 @Where(clause = "is_deleted=false")
 public class Item extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int itemId;
+    private int id;
     private String itemName;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "productTypeId")
+    @JoinColumn(name = "product_type_id", referencedColumnName = "id", nullable = false)
     private ProductType productType;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "brandId")
+    @JoinColumn(name = "brand_id", referencedColumnName = "id", nullable = false)
     private BrandDetail brand;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")

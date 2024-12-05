@@ -23,15 +23,12 @@ import lombok.Setter;
 public class CityDetail {
 
     @Id
-    private int cityId;
+    private int id;
     private String cityCode;
     private String cityName;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "country_id_fk")
+    @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
     private CountryDetail country;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "city")
-    private final Set<Address> address = new HashSet<>();
 
 }

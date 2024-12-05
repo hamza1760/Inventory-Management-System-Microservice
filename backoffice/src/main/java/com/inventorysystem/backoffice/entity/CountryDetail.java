@@ -20,11 +20,8 @@ import lombok.Setter;
 public class CountryDetail {
 
     @Id
-    private int countryId;
+    private int id;
     private String countryCode;
     private String countryName;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "country")
-    private final Set<CityDetail> cityDetails = new HashSet<>();
 
 }

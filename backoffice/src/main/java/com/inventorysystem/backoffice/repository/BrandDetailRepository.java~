@@ -1,0 +1,11 @@
+package com.inventory.system.InventorySystem.repository;
+
+import com.inventory.system.InventorySystem.entity.*;
+import org.springframework.data.jpa.repository.*;
+
+/**
+ * Repository of the brand detail to perform database operation.
+ */
+public interface BrandDetailRepository extends JpaRepository<BrandDetail, Integer> {
+
+}

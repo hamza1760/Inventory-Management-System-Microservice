@@ -22,17 +22,6 @@ import org.hibernate.annotations.Proxy;
 public class BrandDetail {
 
     @Id
-    private int brandId;
+    private int id;
     private String brandName;
-
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "brand")
-    private Item item;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BrandDetail that = (BrandDetail) o;
-        return brandId == that.brandId && Objects.equals(brandName, that.brandName) && Objects.equals(item, that.item);
-    }
 }

@@ -16,8 +16,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CountryDetailDTO {
 
-    @JsonIgnore
-    private final Set<CityDetailDTO> cityDetailDTOS = new HashSet<>();
     private int countryId;
     private String countryCode;
     private String countryName;

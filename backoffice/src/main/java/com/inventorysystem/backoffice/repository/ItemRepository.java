@@ -19,13 +19,13 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
      * @param itemId The id of item to search item in database.
      * @return List of ItemSize of particular item.
      */
-    @Query("Select new com.inventorysystem.backoffice.dto.ItemSizeDTO(A.inventoryId,B.itemId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
+    @Query("Select new com.inventorysystem.backoffice.dto.ItemSizeDTO(A.inventoryId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
         "FROM InventoryDetail A " +
         "JOIN A.item B " +
         "JOIN A.itemType C " +
         "JOIN B.productType D " +
         "JOIN B.brand E " +
-        "where B.itemId =?1")
+        "where B.id =?1")
     List<ItemSizeDTO> getItemSizeById(int itemId);
 
     /**
@@ -33,7 +33,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
      *
      * @return List of ItemSize of all items.
      */
-    @Query("Select new com.inventorysystem.backoffice.dto.ItemSizeDTO(A.inventoryId,B.itemId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
+    @Query("Select new com.inventorysystem.backoffice.dto.ItemSizeDTO(A.inventoryId,A.itemSize,B.itemName,C.itemType,D.productType,E.brandName) " +
         "FROM InventoryDetail A " +
         "JOIN A.item B " +
         "JOIN A.itemType C " +

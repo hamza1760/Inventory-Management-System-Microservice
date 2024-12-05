@@ -25,17 +25,9 @@ import org.hibernate.annotations.Proxy;
 public class ItemType {
 
     @Id
-    private int itemTypeId;
+    private int id;
     @NotEmpty
     private String itemType;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "itemType")
     private final Set<InventoryDetail> inventory = new HashSet<>();
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ItemType itemType1 = (ItemType) o;
-        return itemTypeId == itemType1.itemTypeId && Objects.equals(itemType, itemType1.itemType) && Objects.equals(inventory, itemType1.inventory);
-    }
 }

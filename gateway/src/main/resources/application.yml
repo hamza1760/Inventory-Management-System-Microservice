@@ -38,7 +38,8 @@ spring:
 
         - id: backoffice
           uri: lb://backoffice
-          predicates: Path=/api/inventory/**
+          predicates:
+          - Path=/api/inventory/**, /api/item/**
 
 auth-detail:
   uri: http://user/api/user/auth-detail/

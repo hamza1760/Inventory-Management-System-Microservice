@@ -20,8 +20,6 @@ public class CityDetailDTO {
     private String cityCode;
     private String cityName;
     private CountryDetailDTO country;
-    @JsonIgnore
-    private Set<AddressDTO> address = new HashSet<>();
 
 
 }

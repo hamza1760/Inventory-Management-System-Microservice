@@ -23,17 +23,6 @@ import org.hibernate.annotations.Proxy;
 public class ProductType {
 
     @Id
-    private int productTypeId;
+    private int id;
     private String productType;
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "productType")
-    private Item item;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProductType that = (ProductType) o;
-        return productTypeId == that.productTypeId && Objects.equals(productType, that.productType) && Objects.equals(item, that.item);
-    }
 }

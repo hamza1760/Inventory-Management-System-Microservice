@@ -1,6 +1,9 @@
 package com.inventorysystem.backoffice.entity;
 
+import com.inventorysystem.common.enums.ItemSize;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,14 +26,15 @@ import org.hibernate.annotations.Where;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE user SET is_deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE inventory_detail SET is_deleted = true WHERE inventory_id=?")
 @Where(clause = "is_deleted=false")
 public class InventoryDetail extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int inventoryId;
-    private String itemSize;
+    @Enumerated(EnumType.STRING)
+    private ItemSize itemSize;
     private int inStock;
     private int avlQty;
     private int inTransit;
@@ -39,15 +43,15 @@ public class InventoryDetail extends BaseEntity {
     private int reorderPoint;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id", referencedColumnName = "id", nullable = false)
     private Item item;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "itemTypeId")
+    @JoinColumn(name = "item_type_id", referencedColumnName = "id", nullable = false)
     private ItemType itemType;
 
     @ManyToOne
-    @JoinColumn(name = "warehouse_id")
+    @JoinColumn(name = "warehouse_id", referencedColumnName = "id", nullable = false)
     private Warehouse warehouse;
 
 }

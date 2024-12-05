@@ -32,13 +32,10 @@ public class Warehouse extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int warehouseId;
+    private int id;
     private String warehouseName;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "address_id_fk")
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private Address address;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "warehouse")
-    private final Set<InventoryDetail> inventory = new HashSet<>();
 }

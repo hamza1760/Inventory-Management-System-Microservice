@@ -8,7 +8,6 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.inventorysystem.common.utilities.Constants;
 import com.inventorysystem.gateway.dto.AuthDetailDto;
-import com.inventorysystem.gateway.externalservice.IUserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -29,7 +28,6 @@ import java.util.Map;
 import java.util.function.Function;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,9 +41,6 @@ import org.springframework.web.server.ServerWebExchange;
 public class GatewayUtil {
 
     private final String SECRET_KEY = "inventorySystem";
-
-    @Autowired
-    private IUserService userService;
 
     private Map<String, PublicKey> companyPubLicKeyMap = new HashMap<>();
 

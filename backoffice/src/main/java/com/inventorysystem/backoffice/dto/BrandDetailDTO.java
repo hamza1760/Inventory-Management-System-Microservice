@@ -17,14 +17,4 @@ public class BrandDetailDTO {
 
     private int brandId;
     private String brandName;
-    @JsonIgnore
-    private ItemDTO item;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BrandDetailDTO that = (BrandDetailDTO) o;
-        return brandId == that.brandId && Objects.equals(brandName, that.brandName) && Objects.equals(item, that.item);
-    }
 }

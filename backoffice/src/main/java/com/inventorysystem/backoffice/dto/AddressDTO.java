@@ -19,7 +19,5 @@ public class AddressDTO {
     private String areaName;
     private String street;
     private CityDetailDTO city;
-    @JsonIgnore
-    private WarehouseDTO warehouse;
 
 }

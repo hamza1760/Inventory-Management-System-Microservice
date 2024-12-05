@@ -17,14 +17,4 @@ public class ProductTypeDTO {
 
     private int productTypeId;
     private String productType;
-    @JsonIgnore
-    private ItemDTO item;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProductTypeDTO that = (ProductTypeDTO) o;
-        return productTypeId == that.productTypeId && Objects.equals(productType, that.productType) && Objects.equals(item, that.item);
-    }
 }

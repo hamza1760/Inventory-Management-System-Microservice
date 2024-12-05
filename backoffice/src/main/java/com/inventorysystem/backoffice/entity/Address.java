@@ -23,17 +23,12 @@ import org.hibernate.annotations.Proxy;
 public class Address{
 
     @Id
-    private int addressId;
+    private int id;
     private long postalCode;
     private String areaName;
     private String street;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "city_id_fk")
+    @JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
     private CityDetail city;
-
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "address")
-    private Warehouse warehouse;
-
-
 }

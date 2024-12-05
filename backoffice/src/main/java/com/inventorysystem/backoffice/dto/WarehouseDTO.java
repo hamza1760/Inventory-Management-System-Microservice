@@ -22,6 +22,5 @@ public class WarehouseDTO {
     @NotEmpty
     private String warehouseName;
     private AddressDTO address;
-    private Set<InventoryDetailDTO> inventory;
 
 }

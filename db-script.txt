@@ -1,0 +1,29 @@
+INSERT INTO inventorysystem.product_type
+(id, product_type)
+VALUES(1, 'shoes');
+
+INSERT INTO inventorysystem.brand_detail
+(id, brand_name)
+VALUES(1, 'gucci');
+
+INSERT INTO inventorysystem.country_detail
+(id, country_code, country_name)
+VALUES(1, 'PK', 'Pakistan');
+
+INSERT INTO inventorysystem.city_detail
+(id, city_code, city_name, country_id)
+VALUES(1, 'KHI', 'karachi', 1);
+
+INSERT INTO inventorysystem.address
+(id, area_name, postal_code, street, city_id)
+VALUES(1, 'clifton', 75600, '10', 1);
+
+INSERT INTO inventorysystem.item_type
+(id, item_type)
+VALUES(1, 'finished product');
+
+INSERT INTO inventorysystem.item_type
+(id, item_type)
+VALUES(2, 'Raw Material');
+
+

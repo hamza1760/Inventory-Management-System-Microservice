@@ -61,6 +61,7 @@ public class SecurityConfig {
             .pathMatchers(HttpMethod.POST,"/api/inventory/**").hasAnyAuthority(Constants.ADMIN)
             .pathMatchers(HttpMethod.PUT,"/api/inventory/**").hasAnyAuthority(Constants.ADMIN)
             .pathMatchers(HttpMethod.DELETE,"/api/inventory/**").hasAnyAuthority(Constants.ADMIN)
+            .pathMatchers(HttpMethod.GET,"/api/item/**").hasAnyAuthority(Constants.ADMIN)
             .anyExchange()
             .authenticated()
             .and()
