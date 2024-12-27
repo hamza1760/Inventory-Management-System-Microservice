@@ -29,9 +29,6 @@ public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-//    @Autowired
-//    private ItemService itemService;
-
     /**
      * To add inventory in database.
      *
