@@ -41,7 +41,7 @@ public class WarehouseController {
      * @param warehouseDTO Object of WarehouseDTO.
      * @return The warehouse that is added in database.
      */
-    @PostMapping("/warehouse")
+    @PostMapping()
     public WarehouseDTO addWarehouse(@Valid @RequestBody WarehouseDTO warehouseDTO) {
         return warehouseService.addWarehouse(warehouseDTO);
     }
@@ -51,7 +51,7 @@ public class WarehouseController {
      *
      * @return list of warehouses.
      */
-    @GetMapping("/warehouses")
+    @GetMapping()
     public List<WarehouseDTO> getWarehouse() {
         return warehouseService.getWarehouse();
     }
@@ -62,7 +62,7 @@ public class WarehouseController {
      * @param warehouseId The id of the warehouse to search warehouse in database.
      * @return Single warehouse that matches the warehouseId.
      */
-    @GetMapping("/warehouse/{warehouseId}")
+    @GetMapping("/{warehouseId}")
     public WarehouseDTO getWarehouseById(@PathVariable int warehouseId) {
         return warehouseService.getWarehouseById(warehouseId);
     }
@@ -74,7 +74,7 @@ public class WarehouseController {
      * @param warehouseId        The id of the warehouse to search warehouse in database.
      * @return Warehouse in which the inventory is added.
      */
-    @PutMapping("/warehouse/{warehouseId}")
+    @PutMapping("/{warehouseId}")
     public WarehouseDTO placeInventoryInWarehouse(@RequestBody InventoryDetailDTO inventoryDetailDTO, @PathVariable int warehouseId) {
         return warehouseService.placeInventoryInWarehouse(inventoryDetailDTO, warehouseId);
     }
@@ -84,7 +84,7 @@ public class WarehouseController {
      *
      * @return List of inventories of the item present in all warehouses.
      */
-    @GetMapping("/warehouse/item/quantity")
+    @GetMapping("/item-quantity")
     public List<ItemQuantityDTO> getItemQuantityInAllWarehouses() {
         return warehouseService.getItemQuantityInAllWarehouses();
     }
@@ -95,7 +95,7 @@ public class WarehouseController {
      * @param warehouseId The id of the warehouse to search warehouse in database.
      * @return List of inventories of the item present in particular warehouse.
      */
-    @GetMapping("/warehouse/{warehouseId}/item/quantity")
+    @GetMapping("/warehouseId}/item-quantity")
     public List<ItemQuantityDTO> getItemQuantityInSingleWarehouse(@PathVariable int warehouseId) {
         return warehouseService.getItemQuantityInSingleWarehouse(warehouseId);
     }

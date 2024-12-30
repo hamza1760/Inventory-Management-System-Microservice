@@ -26,4 +26,7 @@ INSERT INTO inventorysystem.item_type
 (id, item_type)
 VALUES(2, 'Raw Material');
 
+INSERT INTO inventorysystem.warehouse
+(id, is_deleted, warehouse_name, address_id)
+VALUES(1, 0, 'StorageXpress', 1);
 

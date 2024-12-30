@@ -38,4 +38,7 @@ public class Warehouse extends BaseEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private Address address;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "warehouse")
+    private Set<InventoryDetail> inventory;
 }

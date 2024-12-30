@@ -1,9 +1,9 @@
 package com.inventorysystem.backoffice.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.inventorysystem.common.utilities.Constants;
-import java.util.Objects;
+import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,5 +22,6 @@ public class WarehouseDTO {
     @NotEmpty
     private String warehouseName;
     private AddressDTO address;
+    private Set<InventoryDetailDTO> inventory;
 
 }
